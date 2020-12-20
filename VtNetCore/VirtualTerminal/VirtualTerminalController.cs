@@ -496,7 +496,13 @@
             for (var y = 0; y < Rows; y++)
             {
                 for (var x = 0; x < Columns; x++)
-                    result += GetVisibleChar(x, y);
+                    if (x == CursorState.CurrentColumn && y == CursorState.CurrentRow && GetVisibleChar(x, y) != "") {
+                        result += "<u><b>"+GetVisibleChar(x, y)+"</b></u>";
+                    } else if (x == CursorState.CurrentColumn-1 && y == CursorState.CurrentRow) {
+                        result += GetVisibleChar(x, y)+"|";
+                    } else {
+                        result += GetVisibleChar(x, y);
+                    }
 
                 if (y < (Rows - 1))
                     result += '\n';
