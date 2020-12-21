@@ -489,7 +489,7 @@
         /// Returns the visible text on the screen as per TopRow and the logical rows and columns
         /// </summary>
         /// <returns>The screen text with each line separated by a line feed</returns>
-        public string GetScreenText()
+        public string GetScreenTextRich()
         {
             string result = "";
 
@@ -498,6 +498,32 @@
                 for (var x = 0; x < Columns; x++)
                     if (x == CursorState.CurrentColumn && y == CursorState.CurrentRow && GetVisibleChar(x, y) != "") {
                         result += "<u><b>"+GetVisibleChar(x, y)+"</b></u>";
+                    } else if (x == CursorState.CurrentColumn-1 && y == CursorState.CurrentRow) {
+                        result += GetVisibleChar(x, y)+"|";
+                    } else {
+                        result += GetVisibleChar(x, y);
+                    }
+
+                if (y < (Rows - 1))
+                    result += '\n';
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the visible text on the screen as per TopRow and the logical rows and columns
+        /// </summary>
+        /// <returns>The screen text with each line separated by a line feed</returns>
+        public string GetScreenText()
+        {
+            string result = "";
+
+            for (var y = 0; y < Rows; y++)
+            {
+                for (var x = 0; x < Columns; x++)
+                    if (x == CursorState.CurrentColumn && y == CursorState.CurrentRow && GetVisibleChar(x, y) != "") {
+                        result += GetVisibleChar(x, y);
                     } else if (x == CursorState.CurrentColumn-1 && y == CursorState.CurrentRow) {
                         result += GetVisibleChar(x, y)+"|";
                     } else {
